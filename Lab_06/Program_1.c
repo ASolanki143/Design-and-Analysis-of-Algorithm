@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define N 100
+#define N 10000
 
 void swap(int *a, int *b) {
     int t = *a;
@@ -15,24 +15,28 @@ int partition(int arr[], int low, int high) {
     int k = low;
     int l = high + 1;
 
-    do{
+    k++;
+    while(k < high && arr[k] <= pivot){
         k++;
     }
-    while(arr[k] <= pivot && k < high);
     
-    do{
+    l--;
+    while(l > low && arr[l] > pivot) {
         l--;
     }
-    while(arr[l] > pivot && l > low);
     
     while (k < l){
         swap(&arr[k], &arr[l]);
-        do {
+        
+        k++;
+        while (k < high && arr[k] <= pivot){
             k++;
-        } while (k < high && arr[k] <= pivot);
-        do {
+        }
+
+        l--;
+        while (l > low && arr[l] > pivot){
             l--;
-        } while (l > low && arr[l] > pivot);
+        }
         
     }
     swap(&arr[low], &arr[l]);
@@ -74,21 +78,19 @@ int main() {
     printf("Quick Sort Performance Analysis\n");
 
     // Best Case
-    if (readArrayFromFile("D:/DAA/Arrays/best_case_100.txt", arr, N)) {
+    if (readArrayFromFile("D:/DAA/Arrays/best_case_10000.txt", arr, N)) {
         printf("Best Case Performance:\n");
         start = clock();
         quickSort(arr, 0, N - 1);
         end = clock();
+        printf("%d , %d \n",arr[0],arr[N-1]);
         time_taken = ((double)(end - start)) / CLOCKS_PER_SEC * 1000;
         printf("Best Case Time: %f ms\n", time_taken);
         // printArray(arr, N); // Uncomment to see sorted array
     }
-    else {
-        printf("Best case file not found.\n");
-    }
 
     // Average Case
-    if (readArrayFromFile("D:/DAA/Arrays/average_case_100.txt", arr, N)) {
+    if (readArrayFromFile("D:/DAA/Arrays/average_case_10000.txt", arr, N)) {
         start = clock();
         quickSort(arr, 0, N - 1);
         end = clock();
@@ -98,7 +100,7 @@ int main() {
     }
 
     // Worst Case
-    if (readArrayFromFile("D:/DAA/Arrays/worst_case_100.txt", arr, N)) {
+    if (readArrayFromFile("D:/DAA/Arrays/worst_case_10000.txt", arr, N)) {
         start = clock();
         quickSort(arr, 0, N - 1);
         end = clock();
